@@ -468,3 +468,453 @@ Follow-up
 Why is SSH preferred over Telnet?
 
 Because Telnet transmits data, including passwords, in plaintext, while SSH encrypts the entire session.
+
+
+
+Threat Intelligence
+Q26. What is Threat Intelligence?
+Answer
+
+Threat Intelligence (TI) is the process of collecting, analyzing, and sharing information about cyber threats to help organizations detect, prevent, and respond to attacks proactively.
+
+Threat intelligence answers questions such as:
+
+Who is attacking?
+What tools and techniques are being used?
+Which systems are being targeted?
+How can we defend against these attacks?
+Types of Threat Intelligence
+Type	Description	Example
+Strategic	High-level trends	Increase in ransomware attacks targeting healthcare
+Tactical	Attacker TTPs	Use of PowerShell for lateral movement
+Operational	Information about ongoing campaigns	Current phishing campaign impersonating Microsoft
+Technical	Indicators of Compromise (IOCs)	Malicious IPs, domains, file hashes
+
+Interview Tip: Mention all four types to demonstrate a solid understanding.
+
+Q27. What are Indicators of Compromise (IOCs)?
+Answer
+
+IOCs are pieces of evidence that suggest a system may have been compromised.
+
+Examples include:
+
+Malicious IP addresses
+Malicious domains
+URLs
+File hashes (MD5, SHA-1, SHA-256)
+Registry keys
+Mutex names
+Email addresses
+Process names
+
+Example:
+
+IP:
+185.220.101.15
+
+Domain:
+fake-login-paypal.com
+
+SHA256:
+4f5b8d3...
+
+In your Threat Intelligence Platform, IOCs were enriched using AbuseIPDB, AlienVault OTX, WHOIS, and GeoIP.
+
+Follow-up
+
+Are IOCs enough to detect attacks?
+
+No. Attackers can frequently change IOCs. Modern SOCs also rely on behavioral detection using TTPs.
+
+Q28. What is the difference between IOC, IOA, and TTP?
+Answer
+IOC	IOA	TTP
+Evidence after compromise	Suspicious activity	Attacker behavior
+Static	Behavioral	Long-term techniques
+IP, Domain	PowerShell downloading malware	Credential Dumping
+
+Example:
+
+IOC:
+
+185.100.50.25
+
+IOA:
+
+PowerShell downloads payload from Internet
+
+TTP:
+
+MITRE T1059
+Command and Scripting Interpreter
+
+Interviewers like this question because it shows whether you understand modern detection methods.
+
+Q29. What is Threat Intelligence Enrichment?
+Answer
+
+Enrichment is the process of adding contextual information to raw IOCs.
+
+For example:
+
+Original IOC:
+
+8.8.8.8
+
+Enriched Data:
+
+Country
+ASN
+ISP
+Abuse score
+WHOIS data
+VirusTotal detections
+MITRE ATT&CK mapping
+
+Enrichment helps analysts prioritize investigations.
+
+Q30. Explain the Threat Intelligence Lifecycle.
+Answer
+
+The lifecycle consists of six stages:
+
+Planning
+Collection
+Processing
+Analysis
+Dissemination
+Feedback
+
+Example:
+
+Collect IPs from AbuseIPDB → Normalize into STIX → Analyze → Share with SOC → Receive feedback and improve.
+
+STIX 2.1
+Q31. What is STIX 2.1?
+Answer
+
+STIX (Structured Threat Information eXpression) is a standardized language for representing cyber threat intelligence.
+
+Benefits:
+
+Standardized data sharing
+Machine-readable
+Vendor-independent
+Supports automation
+
+Your platform used STIX 2.1 to normalize IOC data from multiple sources.
+
+Q32. Why is STIX important?
+Answer
+
+Without STIX:
+
+Vendor A
+
+IP: 1.1.1.1
+
+Vendor B
+
+Malicious IP=1.1.1.1
+
+Different formats.
+
+With STIX:
+
+All threat intelligence follows a common schema, making integration and automation easier.
+
+Q33. What are some common STIX Objects?
+Answer
+
+Common STIX Domain Objects (SDOs):
+
+Indicator
+Malware
+Attack Pattern
+Threat Actor
+Campaign
+Tool
+Vulnerability
+Identity
+Relationship
+Observed Data
+
+Example:
+
+Indicator
+
+↓
+
+Relationship
+
+↓
+
+Malware
+
+↓
+
+Threat Actor
+Q34. Difference between STIX and TAXII.
+Answer
+STIX	TAXII
+Data format	Transport protocol
+JSON based	HTTPS API
+Defines objects	Shares objects
+
+Think of it like:
+
+STIX = PDF document
+
+TAXII = Email used to send the PDF
+
+MITRE ATT&CK
+Q35. What is the MITRE ATT&CK Framework?
+Answer
+
+MITRE ATT&CK is a knowledge base that documents attacker behaviors observed in real-world attacks.
+
+It helps defenders:
+
+Detect attacks
+Build detection rules
+Perform threat hunting
+Map alerts to attacker techniques
+Q36. What are Tactics and Techniques?
+Answer
+
+Tactic = Why the attacker performs an action.
+
+Technique = How the attacker performs it.
+
+Example:
+
+Tactic
+
+Credential Access
+
+↓
+
+Technique
+
+OS Credential Dumping
+(T1003)
+Q37. Explain one MITRE technique.
+Answer
+
+Technique:
+
+T1059
+
+Command and Scripting Interpreter
+
+Attackers execute commands using:
+
+PowerShell
+Bash
+CMD
+Python
+
+Detection:
+
+Monitor unusual PowerShell execution
+Detect encoded commands
+Alert on suspicious parent-child processes
+Q38. Why should SOC analysts map alerts to MITRE ATT&CK?
+Answer
+
+Benefits:
+
+Understand attacker objectives
+Improve detection coverage
+Build threat-hunting queries
+Identify gaps in monitoring
+Standardize reporting across tools
+OSINT
+Q39. What is OSINT?
+Answer
+
+OSINT (Open Source Intelligence) is the collection and analysis of publicly available information.
+
+Sources include:
+
+WHOIS
+Shodan
+DNS records
+GitHub
+LinkedIn
+Social media
+Public repositories
+Certificate Transparency logs
+
+OSINT is commonly used during investigations to gather context about domains, IPs, or organizations.
+
+Q40. What information can WHOIS provide?
+Answer
+
+WHOIS provides registration details for domains.
+
+Typical information:
+
+Registrar
+Registration date
+Expiration date
+Name servers
+Registrant (if not privacy-protected)
+
+This information can help identify recently registered domains that may be suspicious.
+
+SOC & SIEM
+Q41. What is a SIEM?
+Answer
+
+SIEM (Security Information and Event Management) collects, stores, correlates, and analyzes logs from multiple systems.
+
+Typical log sources:
+
+Firewalls
+Servers
+Active Directory
+Endpoint protection
+Network devices
+Cloud services
+
+Common SIEM platforms:
+
+Splunk
+Microsoft Sentinel
+IBM QRadar
+Elastic Security
+Q42. Difference between SIEM and SOAR.
+Answer
+SIEM	SOAR
+Collects and analyzes logs	Automates response actions
+Generates alerts	Executes playbooks
+Detects incidents	Responds to incidents
+
+Example:
+
+SIEM detects repeated failed logins.
+SOAR automatically disables the affected account and notifies the SOC.
+Q43. What is Log Correlation?
+Answer
+
+Log correlation is the process of combining events from multiple sources to identify suspicious activity.
+
+Example:
+
+Firewall
+↓
+
+VPN Login
+
+↓
+
+Windows Event Logs
+
+↓
+
+EDR Alert
+
+Viewed individually, each event may appear normal. Together, they may indicate a compromised account.
+
+Q44. Explain the SOC Alert Triage Process.
+Answer
+
+A SOC analyst typically follows these steps:
+
+Receive the alert.
+Validate whether it is a true or false positive.
+Gather additional context (user, host, IP, process, logs).
+Determine severity and impact.
+Contain the threat if required.
+Escalate or close the incident.
+Document findings.
+
+Documentation is essential because it supports future investigations and audits.
+
+Q45. What is a False Positive?
+Answer
+
+A false positive occurs when a security tool reports malicious activity that is actually legitimate.
+
+Example:
+
+An administrator runs PowerShell for maintenance, but the SIEM flags it as suspicious.
+
+Reducing false positives improves analyst efficiency and helps prevent alert fatigue.
+
+Incident Response
+Q46. What are the phases of Incident Response?
+Answer
+
+The standard incident response lifecycle includes:
+
+Preparation
+Identification
+Containment
+Eradication
+Recovery
+Lessons Learned
+
+Interviewers often expect you to know these phases in order.
+
+Q47. What would you do if an employee reports a phishing email?
+Answer
+
+A structured response would be:
+
+Ask the employee not to interact with the email.
+Analyze the email headers and attachments.
+Review embedded URLs in a safe environment.
+Search for similar emails across the organization.
+Block malicious domains or sender addresses if confirmed.
+Remove the email from affected mailboxes if possible.
+Document the investigation and update detection rules if necessary.
+Q48. What should you check when investigating a suspicious IP address?
+Answer
+
+Useful checks include:
+
+Abuse reputation (e.g., AbuseIPDB)
+GeoIP location
+ASN and ISP
+WHOIS information
+Threat intelligence feeds
+Historical communication with internal systems
+Firewall and proxy logs
+Related DNS activity
+
+This is similar to the enrichment workflow you implemented in your project.
+
+Q49. What is the difference between a vulnerability, an exploit, and a threat?
+Answer
+Term	Meaning
+Vulnerability	A weakness in a system
+Exploit	Code or technique that takes advantage of a vulnerability
+Threat	Anything capable of exploiting a vulnerability and causing harm
+
+Example:
+
+Vulnerability: Unpatched web server.
+Exploit: Public exploit targeting that server.
+Threat: An attacker using the exploit.
+Q50. Suppose your SIEM reports 500 failed login attempts followed by a successful login from the same IP. How would you investigate?
+Answer
+
+A methodical investigation could include:
+
+Determine which account was affected.
+Check whether the source IP is known or has a poor reputation.
+Review the login timeline and authentication logs.
+Identify whether MFA was used or bypassed.
+Look for additional activity after the successful login (new processes, privilege escalation, unusual file access).
+Search for similar attempts against other accounts.
+If compromise is suspected:
+Disable or lock the account.
+Reset credentials.
+Isolate affected systems if necessary.
+Notify the incident response team.
+Document the investigation and recommend preventive measures, such as rate limiting, MFA enforcement, or improved detection rules.
+
+Why this is a strong answer: It demonstrates structured thinking, log analysis skills, and an understanding of containment and recovery rather than focusing only on the failed logins.
